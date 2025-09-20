@@ -66,31 +66,35 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
   }
 
   return (
-    <Card className="overflow-hidden card-shadow hover:shadow-lg transition-smooth group">
+    <Card className="overflow-hidden card-shadow hover:shadow-xl transition-all duration-300 group border-0 bg-gradient-to-br from-background to-muted/20">
       <Link to={`/blog/${post.id}`} className="block">
-        <CardHeader className="p-0">
+        <CardHeader className="p-0 relative">
           <div className="aspect-[4/3] overflow-hidden">
             <img
               src={post.image}
               alt={post.title}
-              className="h-full w-full object-cover group-hover:scale-105 transition-smooth duration-500"
+              className="h-full w-full object-cover group-hover:scale-110 transition-all duration-500"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
+          <div className="absolute top-4 left-4">
+            <Badge className="bg-primary/90 text-primary-foreground border-0 shadow-lg">
+              {post.category}
+            </Badge>
           </div>
         </CardHeader>
       </Link>
-      <CardContent className="p-6">
-        <div className="mb-3">
-          <Badge variant="outline" className="text-xs">
-            {post.category}
-          </Badge>
+      <CardContent className="p-6 space-y-4">
+        <div>
+          <h3 className="text-xl font-heading font-semibold mb-3 leading-tight group-hover:text-primary transition-colors duration-200">
+            <Link to={`/blog/${post.id}`} className="line-clamp-2">{post.title}</Link>
+          </h3>
+          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+            {post.excerpt}
+          </p>
         </div>
-        <h3 className="text-xl font-heading font-semibold mb-3 leading-tight hover:text-primary transition-smooth">
-          <Link to={`/blog/${post.id}`}>{post.title}</Link>
-        </h3>
-        <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 mb-4">
-          {post.excerpt}
-        </p>
-        <div className="flex items-center text-xs text-muted-foreground space-x-4 mb-4">
+        
+        <div className="flex items-center text-xs text-muted-foreground space-x-4 py-2">
           <div className="flex items-center space-x-1">
             <User className="w-3 h-3" />
             <span>{post.author}</span>
@@ -104,9 +108,15 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
             <span>{post.readTime}</span>
           </div>
         </div>
-        <Button asChild size="sm" className="shadow-sm">
-          <Link to="/contact">Book Appointment</Link>
-        </Button>
+
+        <div className="flex items-center justify-between pt-2">
+          <Button asChild size="sm" variant="outline" className="rounded-full">
+            <Link to={`/blog/${post.id}`}>Read More</Link>
+          </Button>
+          <Button asChild size="sm" className="rounded-full shadow-sm">
+            <Link to="/contact">Book Appointment</Link>
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

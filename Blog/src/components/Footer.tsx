@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Heart, Mail, Phone, MapPin } from "lucide-react";
+import { Heart, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
 
 const navigation = {
   main: [
@@ -18,6 +18,13 @@ const navigation = {
     { name: "info@healthhub.com", href: "mailto:info@healthhub.com", icon: Mail },
     { name: "(555) 123-4567", href: "tel:+15551234567", icon: Phone },
     { name: "New York, NY", href: "#", icon: MapPin },
+  ],
+  social: [
+    { name: "Facebook", href: "https://facebook.com/healthtalks", icon: Facebook },
+    { name: "Twitter", href: "https://twitter.com/healthtalks", icon: Twitter },
+    { name: "Instagram", href: "https://instagram.com/healthtalks", icon: Instagram },
+    { name: "LinkedIn", href: "https://linkedin.com/company/healthtalks", icon: Linkedin },
+    { name: "YouTube", href: "https://youtube.com/healthtalks", icon: Youtube },
   ],
 };
 
@@ -44,6 +51,27 @@ export default function Footer() {
               Your trusted source for evidence-based health information, wellness tips, 
               and expert guidance to help you live your healthiest life.
             </p>
+            
+            {/* Social Media Links */}
+            <div className="mt-6">
+              <h3 className="text-sm font-semibold leading-6 text-foreground mb-4">
+                Follow Us
+              </h3>
+              <div className="flex space-x-4">
+                {navigation.social.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                    aria-label={item.name}
+                  >
+                    <item.icon className="h-5 w-5" />
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">

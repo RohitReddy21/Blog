@@ -1,10 +1,11 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import HeroSection from "@/components/HeroSection";
 import BlogCard from "@/components/BlogCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
-import { TrendingUp, Clock, Search, Apple, Dumbbell, Brain, Shield, Heart, Activity, Baby, Users, Tag } from "lucide-react";
+import { TrendingUp, Clock, Search, Apple, Dumbbell, Brain, Shield, Heart, Activity, Baby, Users, Tag, ArrowUp } from "lucide-react";
 import { allBlogPosts, getFeaturedPost, getRecentPosts } from "@/data/blogData";
 
 const useQuery = () => {
@@ -35,6 +36,7 @@ const Index = () => {
   const featuredPost = getFeaturedPost();
   const recentPosts = getRecentPosts(6);
   const trendingPosts = allBlogPosts.slice(0, 5); // Mock trending posts
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   const queryParams = useQuery();
   const q = (queryParams.get("q") || "").trim();
@@ -80,6 +82,18 @@ const Index = () => {
     }
   }, [q]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   if (q) {
     return (
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -110,9 +124,18 @@ const Index = () => {
   }
 
   return (
-    <div>
+    <div className="relative">
       {/* Hero Section */}
       <HeroSection />
+
+      {/* Floating Action Button for Mobile */}
+      <div className="fixed bottom-6 right-6 z-40 lg:hidden">
+        <Button asChild size="lg" className="rounded-full shadow-2xl h-14 w-14 p-0">
+          <Link to="/contact">
+            <Heart className="h-6 w-6" />
+          </Link>
+        </Button>
+      </div>
 
       {/* Featured Article */}
       {featuredPost && (
@@ -253,6 +276,16 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 left-6 z-40 bg-primary text-primary-foreground rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 lg:bottom-8 lg:left-8"
+        >
+          <ArrowUp className="h-5 w-5" />
+        </button>
+      )}
     </div>
   );
 };

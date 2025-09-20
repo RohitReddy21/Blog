@@ -128,96 +128,75 @@ export default function Header() {
         </form>
       </div>
 
-      {/* Mobile menu - Full screen overlay */}
+      {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden">
-          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-          <div className="fixed inset-0 z-50 flex items-start justify-end">
-            <div className="w-full max-w-sm h-full bg-background shadow-2xl overflow-y-auto">
-              {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-border">
-                <Link
-                  to="/"
-                  className="flex items-center space-x-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <img
-                    src="/images/LOGO.jpg"
-                    alt="Everyday Health Talks"
-                    className="w-24 h-12 rounded-full object-cover"
-                  />
-                </Link>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-full p-2"
-                >
-                  <span className="sr-only">Close menu</span>
-                  <X className="h-6 w-6" />
-                </Button>
-              </div>
+  <div className="lg:hidden">
+    {/* Background overlay */}
+    <div
+      className="fixed inset-0 z-40 bg-black/60"
+      onClick={() => setMobileMenuOpen(false)}
+    />
 
-              {/* Navigation */}
-              <div className="p-6 space-y-6">
-                <div className="space-y-4">
-                  {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`block text-xl font-semibold transition-colors duration-200 py-3 px-4 rounded-lg ${
-                        isActive(item.href)
-                          ? "text-primary bg-primary/10 border-l-4 border-primary"
-                          : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
+    {/* Fullscreen menu */}
+    <div className="fixed inset-0 z-50 flex flex-col bg-background px-6 py-6">
+      {/* Header with logo + close button */}
+      <div className="flex items-center justify-between">
+        <Link
+          to="/"
+          className="-m-1.5 p-1.5 flex items-center space-x-2"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <img
+            src="/images/LOGO.jpg"
+            alt="Everyday Health Talks"
+            className="w-36 h-16 rounded-full object-cover"
+          />
+        </Link>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setMobileMenuOpen(false)}
+          className="-m-2.5 rounded-md p-2.5"
+        >
+          <span className="sr-only">Close menu</span>
+          <X className="h-7 w-7" aria-hidden={true} />
+        </Button>
+      </div>
 
-                {/* CTA Section */}
-                <div className="pt-6 border-t border-border">
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-foreground mb-4">
-                      Ready to take care of your health?
-                    </h3>
-                    <Button asChild className="w-full rounded-full py-6 text-lg font-semibold" size="lg">
-                      <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>
-                        Book an appointment
-                      </Link>
-                    </Button>
-                    <p className="text-sm text-muted-foreground text-center">
-                      Get personalized health advice from our experts
-                    </p>
-                  </div>
-                </div>
-
-                {/* Additional Links */}
-                <div className="pt-6 border-t border-border">
-                  <div className="space-y-3">
-                    <Link
-                      to="/about"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block text-base text-muted-foreground hover:text-foreground transition-colors py-2"
-                    >
-                      About Us
-                    </Link>
-                    <Link
-                      to="/contact"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block text-base text-muted-foreground hover:text-foreground transition-colors py-2"
-                    >
-                      Contact
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Navigation links */}
+      <div className="mt-10 flex-1 flex flex-col justify-between">
+        <div className="space-y-6">
+          {navigation.map((item) => (
+            <Link
+              key={item.name}
+              to={item.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className={`block rounded-lg px-4 py-3 text-xl font-semibold transition-colors duration-200 ${
+                isActive(item.href)
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
-      )}
+
+        {/* CTA button */}
+        <div className="mt-10">
+          <Button
+            asChild
+            className="w-full rounded-full py-4 text-lg"
+            size="lg"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <Link to="/contact">Book an appointment</Link>
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
     </header>
   );
 }
