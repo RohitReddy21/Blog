@@ -29,11 +29,15 @@ export default function Footer() {
           {/* Logo and description */}
           <div className="space-y-8">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Heart className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-heading font-bold text-foreground">
-                HealthHub
+                {/* <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <Heart className="w-5 h-5 text-primary-foreground" />
+                </div> */}
+              <span className="text-2xl font-heading font-bold text-foreground truncate flex items-center space-x-2">
+                <img
+                  src="/images/LOGO.jpg"
+                  alt="Everyday Health Talks"
+                  className="w-36 h-20 object-cover"
+                />
               </span>
             </Link>
             <p className="text-sm leading-6 text-muted-foreground max-w-md">

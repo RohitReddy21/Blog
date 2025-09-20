@@ -1,34 +1,47 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import BlogCard from "@/components/BlogCard";
 import { Button } from "@/components/ui/button";
-import { allBlogPosts, getPostsByCategory, categories } from "@/data/blogData";
+import { allBlogPosts, getPostsByCategory } from "@/data/blogData";
+
+const slugify = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
 
 export default function CategoryPage() {
-  const { category } = useParams<{ category: string }>();
+  const { category: categorySlug } = useParams<{ category: string }>();
   const [posts, setPosts] = useState<typeof allBlogPosts>([]);
   const [displayedPosts, setDisplayedPosts] = useState<typeof allBlogPosts>([]);
   const [postsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const categoryDisplayName = category?.split('-').map(word => 
-    word.charAt(0).toUpperCase() + word.slice(1)
-  ).join(' ') || '';
+  const categoryMap = useMemo(() => {
+    const unique = Array.from(new Set(allBlogPosts.map((p) => p.category)));
+    const map = new Map<string, string>();
+    for (const name of unique) {
+      map.set(slugify(name), name);
+    }
+    return map;
+  }, []);
+
+  const categoryDisplayName = categorySlug ? categoryMap.get(categorySlug) || "" : "";
 
   useEffect(() => {
-    if (category) {
+    if (categoryDisplayName) {
       const categoryPosts = getPostsByCategory(categoryDisplayName);
       setPosts(categoryPosts);
       setDisplayedPosts(categoryPosts.slice(0, postsPerPage));
       setCurrentPage(1);
-      
+
       document.title = `${categoryDisplayName} Articles - HealthHub`;
       const metaDescription = document.querySelector('meta[name="description"]');
       if (metaDescription) {
         metaDescription.setAttribute('content', `Expert ${categoryDisplayName.toLowerCase()} advice and evidence-based articles from medical professionals.`);
       }
     }
-  }, [category, categoryDisplayName, postsPerPage]);
+  }, [categoryDisplayName, postsPerPage]);
 
   const loadMore = () => {
     const nextPage = currentPage + 1;
@@ -40,7 +53,7 @@ export default function CategoryPage() {
 
   const hasMore = displayedPosts.length < posts.length;
 
-  if (!categories.includes(categoryDisplayName)) {
+  if (!categoryDisplayName) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">

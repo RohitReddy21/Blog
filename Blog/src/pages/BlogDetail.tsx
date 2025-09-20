@@ -4,26 +4,27 @@ import { Calendar, Clock, User, ArrowLeft, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import BlogCard from "@/components/BlogCard";
 import { allBlogPosts, getRelatedPosts } from "@/data/blogData";
 import { useToast } from "@/hooks/use-toast";
 
 export default function BlogDetail() {
   const { id } = useParams<{ id: string }>();
-  const [post, setPost] = useState(allBlogPosts.find(p => p.id === id));
+  const [post, setPost] = useState(allBlogPosts.find((p) => p.id === id));
   const { toast } = useToast();
 
   useEffect(() => {
     if (id) {
-      const foundPost = allBlogPosts.find(p => p.id === id);
+      const foundPost = allBlogPosts.find((p) => p.id === id);
       setPost(foundPost);
-      
+
       if (foundPost) {
         document.title = `${foundPost.title} - HealthHub`;
-        const metaDescription = document.querySelector('meta[name="description"]');
+        const metaDescription = document.querySelector(
+          'meta[name="description"]'
+        );
         if (metaDescription) {
-          metaDescription.setAttribute('content', foundPost.excerpt);
+          metaDescription.setAttribute("content", foundPost.excerpt);
         }
       }
     }
@@ -38,7 +39,7 @@ export default function BlogDetail() {
           url: window.location.href,
         });
       } catch (error) {
-        console.log('Error sharing:', error);
+        console.log("Error sharing:", error);
       }
     } else {
       // Fallback to clipboard
@@ -50,11 +51,17 @@ export default function BlogDetail() {
     }
   };
 
+  const shareEncoded = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   if (!post) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-foreground mb-4">Article not found</h1>
+          <h1 className="text-2xl font-bold text-foreground mb-4">
+            Article not found
+          </h1>
           <Button asChild>
             <Link to="/">Return Home</Link>
           </Button>
@@ -64,9 +71,11 @@ export default function BlogDetail() {
   }
 
   const relatedPosts = getRelatedPosts(post.id);
+  const pageUrl = encodeURIComponent(window.location.href);
+  const title = encodeURIComponent(post.title);
 
   return (
-    <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+    <article className="mx-auto max-w-6xl px-6 py-12 sm:px-8 lg:px-12">
       {/* Back button */}
       <div className="mb-8">
         <Button variant="ghost" asChild className="p-0">
@@ -88,20 +97,22 @@ export default function BlogDetail() {
         <p className="text-xl text-muted-foreground leading-relaxed mb-8">
           {post.excerpt}
         </p>
-        
+
         {/* Article meta */}
-        <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mb-8">
+        <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mb-6">
           <div className="flex items-center space-x-2">
             <User className="w-4 h-4" />
             <span>{post.author}</span>
           </div>
           <div className="flex items-center space-x-2">
             <Calendar className="w-4 h-4" />
-            <span>{new Date(post.date).toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}</span>
+            <span>
+              {new Date(post.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
           </div>
           <div className="flex items-center space-x-2">
             <Clock className="w-4 h-4" />
@@ -118,6 +129,55 @@ export default function BlogDetail() {
           </Button>
         </div>
 
+        {/* Social share buttons */}
+        <div className="flex flex-wrap gap-3 mb-4">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => shareEncoded(`https://twitter.com/intent/tweet?url=${pageUrl}&text=${title}`)}
+          >
+            X/Twitter
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => shareEncoded(`https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`)}
+          >
+            Facebook
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => shareEncoded(`https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}&title=${title}`)}
+          >
+            LinkedIn
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => shareEncoded(`https://api.whatsapp.com/send?text=${title}%20${pageUrl}`)}
+          >
+            WhatsApp
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              toast({ title: "Link copied!", description: "Share URL copied to clipboard." });
+            }}
+          >
+            Copy Link
+          </Button>
+        </div>
+
+        {/* Appointment CTA */}
+        <div className="mb-8">
+          <Button asChild size="sm">
+            <Link to="/contact">Book Appointment</Link>
+          </Button>
+        </div>
+
         {/* Featured image */}
         <div className="aspect-[16/9] overflow-hidden rounded-xl mb-12">
           <img
@@ -130,16 +190,16 @@ export default function BlogDetail() {
 
       {/* Article content */}
       <div className="blog-content">
-        <div 
-          dangerouslySetInnerHTML={{ 
+        <div
+          dangerouslySetInnerHTML={{
             __html: post.content
-              .replace(/\n\n/g, '</p><p>')
-              .replace(/^/, '<p>')
-              .replace(/$/, '</p>')
-              .replace(/#{1,6}\s(.*?)(<\/p>|$)/g, '<h2>$1</h2>')
-              .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-              .replace(/\n/g, '<br>')
-          }} 
+              .replace(/\n\n/g, "</p><p>")
+              .replace(/^/, "<p>")
+              .replace(/$/, "</p>")
+              .replace(/#{1,6}\s(.*?)(<\/p>|$)/g, "<h2>$1</h2>")
+              .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+              .replace(/\n/g, "<br>"),
+          }}
         />
       </div>
 
@@ -153,22 +213,6 @@ export default function BlogDetail() {
           ))}
         </div>
       </div>
-
-      {/* Comments placeholder */}
-      <section className="mt-16">
-        <Separator className="mb-8" />
-        <Card>
-          <CardHeader>
-            <CardTitle>Comments</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground text-center py-8">
-              Comments section coming soon. We're working on bringing you a safe space 
-              for health discussions.
-            </p>
-          </CardContent>
-        </Card>
-      </section>
 
       {/* Related articles */}
       {relatedPosts.length > 0 && (

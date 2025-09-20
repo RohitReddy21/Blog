@@ -311,7 +311,7 @@ Consult healthcare providers for:
 
 Remember, every woman's hormonal journey is unique. Working with healthcare providers who understand hormonal health can make a significant difference in your quality of life.
     `,
-    category: "Women's Health",
+    category: `Women's Health`,
     author: "Dr. Amanda Rodriguez",
     date: "2024-01-12",
     readTime: "9 min",

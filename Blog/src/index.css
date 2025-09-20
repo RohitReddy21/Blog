@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    /* Medical theme color palette */
+    /* Logo-aligned green palette */
     --background: 0 0% 100%;
     --foreground: 210 15% 15%;
 
@@ -16,37 +16,37 @@
     --popover: 0 0% 100%;
     --popover-foreground: 210 15% 15%;
 
-    /* Medical blue primary - trustworthy and professional */
-    --primary: 210 85% 45%;
+    /* Primary: deep health green from logo */
+    --primary: 150 60% 35%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 210 85% 55%;
-    --primary-dark: 210 85% 35%;
+    --primary-light: 150 60% 45%;
+    --primary-dark: 150 60% 25%;
 
-    /* Clean secondary colors */
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 210 15% 25%;
+    /* Secondary: soft neutral with slight green tint */
+    --secondary: 150 20% 96%;
+    --secondary-foreground: 150 15% 25%;
 
-    --muted: 210 15% 95%;
-    --muted-foreground: 210 10% 55%;
+    --muted: 150 15% 95%;
+    --muted-foreground: 150 10% 45%;
 
-    /* Health-focused accent - fresh green */
-    --accent: 150 60% 50%;
-    --accent-foreground: 0 0% 100%;
-    --accent-light: 150 60% 60%;
+    /* Accent: bright lime from logo */
+    --accent: 95 70% 52%;
+    --accent-foreground: 0 0% 15%;
+    --accent-light: 95 70% 60%;
 
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 15% 90%;
-    --input: 210 15% 95%;
-    --ring: 210 85% 45%;
+    --border: 150 15% 90%;
+    --input: 150 15% 95%;
+    --ring: 150 60% 35%;
 
     --radius: 0.75rem;
 
-    /* Medical-specific design tokens */
-    --hero-gradient: linear-gradient(135deg, hsl(210 85% 45%), hsl(210 85% 35%));
-    --card-shadow: 0 2px 10px -2px hsl(210 85% 45% / 0.1);
-    --hero-shadow: 0 10px 40px -10px hsl(210 85% 45% / 0.3);
+    /* Design tokens aligned to green brand */
+    --hero-gradient: linear-gradient(135deg, hsl(150 60% 45%), hsl(95 70% 52%));
+    --card-shadow: 0 2px 10px -2px hsl(150 60% 35% / 0.12);
+    --hero-shadow: 0 10px 40px -10px hsl(150 60% 35% / 0.28);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     
     /* Typography scale */
@@ -67,7 +67,7 @@
 
     --sidebar-border: 220 13% 91%;
 
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 150 60% 35%;
   }
 
   .dark {
@@ -80,32 +80,32 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
+    --primary: 150 60% 45%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 150 15% 12%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 150 15% 12%;
+    --muted-foreground: 150 10% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 95 70% 45%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 150 15% 16%;
+    --input: 150 15% 16%;
+    --ring: 150 60% 45%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 150 60% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent: 150 15% 14%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-border: 150 15% 14%;
+    --sidebar-ring: 150 60% 45%;
   }
 }
 

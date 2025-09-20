@@ -3,6 +3,7 @@ import { Calendar, Clock, User } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BlogPost } from "@/data/blogData";
+import { Button } from "@/components/ui/button";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -54,13 +55,18 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
               <span>{post.readTime}</span>
             </div>
           </div>
+          <div className="mt-4">
+            <Button asChild size="sm" variant="secondary">
+              <Link to="/contact">Book Appointment</Link>
+            </Button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <Card className="overflow-hidden card-shadow hover:shadow-lg transition-smooth group cursor-pointer">
+    <Card className="overflow-hidden card-shadow hover:shadow-lg transition-smooth group">
       <Link to={`/blog/${post.id}`} className="block">
         <CardHeader className="p-0">
           <div className="aspect-[4/3] overflow-hidden">
@@ -71,36 +77,37 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
             />
           </div>
         </CardHeader>
-        <CardContent className="p-6">
-          <div className="mb-3">
-            <Badge variant="outline" className="text-xs">
-              {post.category}
-            </Badge>
-          </div>
-          <h3 className="text-xl font-heading font-semibold mb-3 leading-tight group-hover:text-primary transition-smooth">
-            {post.title}
-          </h3>
-          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 mb-4">
-            {post.excerpt}
-          </p>
-        </CardContent>
-        <CardFooter className="px-6 pb-6 pt-0">
-          <div className="flex items-center text-xs text-muted-foreground space-x-4">
-            <div className="flex items-center space-x-1">
-              <User className="w-3 h-3" />
-              <span>{post.author}</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <Calendar className="w-3 h-3" />
-              <span>{new Date(post.date).toLocaleDateString()}</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <Clock className="w-3 h-3" />
-              <span>{post.readTime}</span>
-            </div>
-          </div>
-        </CardFooter>
       </Link>
+      <CardContent className="p-6">
+        <div className="mb-3">
+          <Badge variant="outline" className="text-xs">
+            {post.category}
+          </Badge>
+        </div>
+        <h3 className="text-xl font-heading font-semibold mb-3 leading-tight hover:text-primary transition-smooth">
+          <Link to={`/blog/${post.id}`}>{post.title}</Link>
+        </h3>
+        <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 mb-4">
+          {post.excerpt}
+        </p>
+        <div className="flex items-center text-xs text-muted-foreground space-x-4 mb-4">
+          <div className="flex items-center space-x-1">
+            <User className="w-3 h-3" />
+            <span>{post.author}</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <Calendar className="w-3 h-3" />
+            <span>{new Date(post.date).toLocaleDateString()}</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <Clock className="w-3 h-3" />
+            <span>{post.readTime}</span>
+          </div>
+        </div>
+        <Button asChild size="sm" className="shadow-sm">
+          <Link to="/contact">Book Appointment</Link>
+        </Button>
+      </CardContent>
     </Card>
   );
 }
